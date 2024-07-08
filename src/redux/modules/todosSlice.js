@@ -44,9 +44,12 @@ const todosSlice = createSlice({
             })
             .addCase(__deleteTodo.fulfilled, (state, action) => {
                 return {
-                    ...state,
+                    isLoading: false,
                     list: state.list.filter(item => item.id !== action.payload),
                 };
+            })
+            .addCase(__deleteTodo.pending, (state, action) => {
+                state.isLoading = true;
             });
     },
 });
