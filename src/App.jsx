@@ -16,6 +16,7 @@ function App() {
     const id = nextId();
     const dispatch = useDispatch();
     const todos = useSelector(state => state.todos.list);
+    const { isLoading } = useSelector(state => state.todos);
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
 
@@ -71,6 +72,7 @@ function App() {
 
                     <Button onClick={onAddTodo}>+ 추가하기</Button>
                 </InputContainer>
+                {isLoading ? <pre>Loading</pre> : null}
                 <TodoListContainer>
                     {todos &&
                         todos.map(todo => (

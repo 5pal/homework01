@@ -25,23 +25,22 @@ export const __deleteTodo = createAsyncThunk(
 
 const initialState = {
     list: [],
+    isLoading: false,
 };
 
 const todosSlice = createSlice({
     name: "todos",
     initialState,
-    reducers: {
-        addTodo: (state, action) => {
-            state.list.push(action.payload);
-        },
-        deleteTodo: (state, action) => {
-            return state.list.filter(item => item.id !== action.payload);
-        },
-    },
     extraReducers: builder => {
         builder
             .addCase(__addToDo.fulfilled, (state, action) => {
-                state.list.push(action.payload);
+                return {
+                    isLoading: false,
+                    list: [action.payload, ...state.list],
+                };
+            })
+            .addCase(__addToDo.pending, (state, action) => {
+                state.isLoading = true;
             })
             .addCase(__deleteTodo.fulfilled, (state, action) => {
                 return {
